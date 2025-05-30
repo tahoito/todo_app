@@ -13,7 +13,7 @@ class ToDoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'todo_app',
+      title: 'taho_todo_app',
       theme: appTheme,
       home: const HomeScreen(),
     );
