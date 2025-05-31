@@ -9,7 +9,7 @@ class HomeTab extends StatelessWidget {
       children: [
         // カテゴリーチップ
         SizedBox(
-          height: 50,
+          height: 80,
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: const [

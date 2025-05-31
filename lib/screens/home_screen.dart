@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'home_tab.dart';
 
 class HomeScreen extends StatefulWidget{
   const HomeScreen({super.key});
@@ -11,6 +12,7 @@ class _HomeScreenState extends State<HomeScreen>{
   int _selectedIndex = 0;//どのタブが選ばれるか
 
   static const List<Widget> _screens = <Widget> [
+    HomeTab(),
     Center(child: Text('ホーム')),
     Center(child: Text('さがす')),
     Center(child: Text('追加')),
