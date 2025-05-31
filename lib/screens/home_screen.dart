@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen>{
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
         selectedItemColor: Color(0xFF92E9FF),//洗濯中のアイコンの色
-        unselectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
         items: const[
           BottomNavigationBarItem(

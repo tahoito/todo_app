@@ -1,25 +1,16 @@
 import 'package:flutter/material.dart';
 
-final ThemeData apptheme = ThemeData(
-  useMaterial3: true,
+final ThemeData appTheme = ThemeData(
+  primarySwatch: Colors.lightBlue,
   scaffoldBackgroundColor: Colors.white,
-  primaryColor: const Color(0xFF92E9FF),
-  fontFamily: 'NotoSansJP', // pubspec.yaml にフォント追加してなかったらこれは外してOK
   appBarTheme: const AppBarTheme(
     backgroundColor: Color(0xFF92E9FF),
-    centerTitle: true,
-    titleTextStyle: TextStyle(
-    color: Colors.black,
-    fontSize: 20,
-    fontWeight: FontWeight.bold,
-    ),
-  ),
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    selectedItemColor: Color(0xFF92E9FF),
-    unselectedItemColor: Colors.grey,
-    showUnselectedLabels: true,
+    foregroundColor: Colors.black,
+    elevation: 0,
   ),
   textTheme: const TextTheme(
-    bodyMedium: TextStyle(fontSize: 16),
+    bodyLarge: TextStyle(fontSize: 16.0),
+    bodyMedium: TextStyle(fontSize: 14.0),
   ),
+  fontFamily: 'NotoSansJP', // フォント入れたらここ使ってね
 );
