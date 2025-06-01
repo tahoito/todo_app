@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_tab.dart';
 import 'search_tab.dart';
+import 'add_task_tab.dart';
 
 class HomeScreen extends StatefulWidget{
   const HomeScreen({super.key});
@@ -15,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen>{
   static const List<Widget> _screens = <Widget> [
     HomeTab(),
     SearchTab(),
-    Center(child: Text('さがす')),
+    AddTaskTab(),
     Center(child: Text('追加')),
     Center(child: Text('カレンダー')),
     Center(child: Text('設定')),

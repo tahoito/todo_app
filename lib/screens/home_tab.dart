@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
 
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -42,6 +47,35 @@ class HomeTab extends StatelessWidget {
                 leading: Icon(Icons.check_box),
                 title: Text('バイトのシフト確認'),
                 subtitle: Text('締切：5/30'),
+              ),
+            ],
+          ),
+        ),
+        // 📝 入力フォーム（追加部分）
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          color: Colors.white,
+          child: Column(
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                  hintText: 'タスクを入力する',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  const Expanded(child: Text('カテゴリ: 家事')), // ← 仮
+                  ElevatedButton(
+                    onPressed: () {
+                      // あとで追加処理を書く！
+                    },
+                    child: const Text('追加'),
+                  ),
+                ],
               ),
             ],
           ),
