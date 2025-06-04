@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen>{
       appBar:AppBar(
         title: const Text(
           'ホーム',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white,),
         ),
         centerTitle: true,
         backgroundColor: Color(0xFF92E9FF),

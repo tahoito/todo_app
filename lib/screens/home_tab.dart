@@ -34,6 +34,14 @@ class _HomeTabState extends State<HomeTab> {
           ),
         ),
 
+        const Divider(
+          color: Colors.black,
+          thickness: 1,
+          height: 32,
+          indent: 16,
+          endIndent: 16,
+        ),
+
         // タスクリスト
         Expanded(
           child: ListView(
