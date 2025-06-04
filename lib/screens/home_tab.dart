@@ -44,8 +44,8 @@ class _HomeTabState extends State<HomeTab> {
 
         // タスクリスト
         Container(
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.all(16),
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
@@ -101,6 +101,66 @@ class _HomeTabState extends State<HomeTab> {
             ],
           ),
         ),
+
+        Container(
+          padding: const EdgeInsets.all(16),
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.grey, width: 1),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ○ チェックアイコン
+              Container(
+                margin: const EdgeInsets.only(top: 4),
+                child: const Icon(
+                  Icons.radio_button_checked,
+                  size: 28,
+                  color: Colors.blue,
+                ),
+              ),
+              const SizedBox(width: 12),
+
+              // タスク情報（タイトル＋日付）
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'お風呂掃除をする',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      '今日',
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+
+              // タグ（家事など）
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.lightBlue[100],
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: const Text(
+                  '家事',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+
         // 📝 入力フォーム（追加部分）
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
