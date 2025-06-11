@@ -135,7 +135,7 @@ class _HomeTabState extends State<HomeTab> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      '今日',
+                      '今日：',
                       style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                   ],
