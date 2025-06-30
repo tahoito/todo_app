@@ -20,7 +20,17 @@ class Task {
 
 class HomeTab extends StatefulWidget {
   final bool showForm;
-  const HomeTab({super.key, required this.showForm});
+  final List<Task> tasks;
+  final Function(Task) onAddTask;
+  final Function(int) onToggleTask;
+
+  const HomeTab({
+    super.key,
+    required this.showForm,
+    required this.tasks,
+    required this.onAddTask,
+    required this.onToggleTask,
+  });
 
   @override
   State<HomeTab> createState() => _HomeTabState();
@@ -104,7 +114,7 @@ class _HomeTabState extends State<HomeTab> {
                       return ChoiceChip(
                         label: Text(cat),
                         selected: isSelected,
-                        onSelected: (_) {
+                        onSelected: (bool selected) {
                           setState(() => _selectedCategory = cat);
                         },
                         selectedColor: Colors.lightBlue[100],
@@ -197,11 +207,11 @@ class _HomeTabState extends State<HomeTab> {
                       '${task.date.year}/${task.date.month}/${task.date.day} ・ ${task.category}',
                       style: const TextStyle(color: Colors.grey),
                     ),
-                    if (task.memo.isNotEmpty)
+                    /*if (task.memo.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(top: 6),
                         child: Text(task.memo),
-                      ),
+                      ),*/
                   ],
                 ),
               ),

@@ -13,15 +13,25 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   bool _showTaskForm = false;
+  final List<Task> _tasks = [];
 
-  // ← ここを static const じゃなくて関数に変更！！
   List<Widget> _screens(bool showForm) => [
-    HomeTab(showForm: showForm), // 👈 ここに渡せるようになる
-    SearchTab(),
+    HomeTab(
+      showForm: showForm,
+      tasks: _tasks,
+      onAddTask: (task) {
+        setState(() => _tasks.add(task));
+      },
+      onToggleTask: (index) {
+        setState(() => _tasks[index].isDone = !_tasks[index].isDone);
+      },
+    ),
+    const SearchTab(),
     const SizedBox.shrink(), // 追加タブは空
     const Center(child: Text('カレンダー')),
-    SettingTab(),
+    const SettingTab(),
   ];
+
 
   void _onItemTapped(int index) {
     setState(() {
