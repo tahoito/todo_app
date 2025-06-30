@@ -26,26 +26,24 @@ class _CategoryTagInputState extends State<CategoryTagInput> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0), // 左右に余白追加
+      padding: const EdgeInsets.fromLTRB(16,24,16,8), // 左右に余白追加
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Wrap(
-            spacing: 8.0,
-            children: _tags
-                .map((tag) => Chip(
-              label: Text(tag),
-              backgroundColor: Colors.lightBlue[50],
-            ))
-                .toList(),
-          ),
-
-          // プラスボタン（右寄せ・少し上に調整）
-          Align(
-            alignment: Alignment.centerRight,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: IconButton(
+          Row(
+            children:[
+              Expanded(
+                child: Wrap(
+                  spacing:8.0,
+                  children: _tags
+                    .map((tag) => Chip(
+                      label:Text(tag),
+                    backgroundColor:Colors.lightBlue[50],
+                  ))
+                      .toList(),
+                ),
+              ),
+              IconButton(
                 icon: const Icon(Icons.add),
                 onPressed: () {
                   setState(() {
@@ -53,9 +51,8 @@ class _CategoryTagInputState extends State<CategoryTagInput> {
                   });
                 },
               ),
-            ),
+            ],
           ),
-
           // 押されたら表示される入力フォーム
           if (_showInputForm)
             Row(
