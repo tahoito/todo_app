@@ -148,39 +148,65 @@ class _HomeTabState extends State<HomeTab> {
             ),
 
           // タスク表示エリア
-          ..._tasks.map((task) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.grey),
+          ..._tasks.asMap().entries.map((entry) {
+            final index = entry.key;
+            final task = entry.value;
+
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.grey),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              task.isDone = !task.isDone;
+                            });
+                          },
+                          child: Icon(
+                            task.isDone
+                                ? Icons.radio_button_checked
+                                : Icons.radio_button_unchecked,
+                            color: task.isDone ? Colors.blue : Colors.black,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          task.title,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            decoration:
+                            task.isDone ? TextDecoration.lineThrough : null,
+                            color: task.isDone ? Colors.grey : Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      '${task.date.year}/${task.date.month}/${task.date.day} ・ ${task.category}',
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                    if (task.memo.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 6),
+                        child: Text(task.memo),
+                      ),
+                  ],
+                ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.radio_button_unchecked),
-                      const SizedBox(width: 8),
-                      Text(task.title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    '${task.date.year}/${task.date.month}/${task.date.day} ・ ${task.category}',
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                  /*if (task.memo.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 6),
-                      child: Text(task.memo),
-                    ),*/
-                ],
-              ),
-            ),
-          )).toList(),
+            );
+          }).toList(),
         ],
       ),
     );
