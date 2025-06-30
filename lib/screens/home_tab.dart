@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/widgets/category_tag_input.dart';
 
+// Task クラスは外に出す！
+class Task {
+  final String title;
+  final String category;
+  final DateTime date;
+  final String memo;
+  bool isDone;
+
+  Task({
+    required this.title,
+    required this.category,
+    required this.date,
+    required this.memo,
+    this.isDone = false,
+  });
+}
+
 class HomeTab extends StatefulWidget {
   final bool showForm;
   const HomeTab({super.key, required this.showForm});
@@ -16,20 +33,6 @@ class _HomeTabState extends State<HomeTab> {
   final List<String> _categories = ['家事', '勉強', '仕事', '趣味'];
   String? _selectedCategory;
   DateTime? _selectedDate;
-
-  class Task {
-    final String title;
-    final String category;
-    final DateTime date;
-    final String memo;
-
-    Task({
-      required this.title,
-      required this.category,
-      required this.date,
-      required this.memo,
-    });
-  }
 
   final List<Task> _tasks = [];
 
@@ -52,131 +55,134 @@ class _HomeTabState extends State<HomeTab> {
     final memo = _memoController.text.trim();
     if (task.isEmpty || _selectedCategory == null || _selectedDate == null) return;
 
-    print('追加されたタスク: $task / カテゴリ: $_selectedCategory / 日付: $_selectedDate / メモ: $memo');
-
     setState(() {
-    _tasks.add(Task(
-    title: task,
-    category: _selectedCategory!,
-    date: _selectedDate!,
-    memo: memo,
-    ));
+      _tasks.add(Task(
+        title: task,
+        category: _selectedCategory!,
+        date: _selectedDate!,
+        memo: memo,
+      ));
 
-    _taskController.clear();
-    _memoController.clear();
-    _selectedCategory = null;
-    _selectedDate = null;
+      _taskController.clear();
+      _memoController.clear();
+      _selectedCategory = null;
+      _selectedDate = null;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: CategoryTagInput(),
-        ),
-        const Divider(),
+    return SingleChildScrollView( // ← スクロール可能に
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            child: CategoryTagInput(),
+          ),
+          const Divider(),
 
-        if (widget.showForm)
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: _taskController,
-                  decoration: const InputDecoration(
-                    hintText: 'タスク入力',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 12),
-
-                Wrap(
-                  spacing: 8.0,
-                  children: _categories.map((cat) {
-                    final isSelected = _selectedCategory == cat;
-                    return ChoiceChip(
-                      label: Text(cat),
-                      selected: isSelected,
-                      onSelected: (_) {
-                        setState(() => _selectedCategory = cat);
-                      },
-                      selectedColor: Colors.lightBlue[100],
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 12),
-
-                Row(
-                  children: [
-                    const Text('日付:'),
-                    TextButton(
-                      onPressed: _selectDate,
-                      child: Text(_selectedDate == null
-                          ? '日付を選択'
-                          : '${_selectedDate!.year}/${_selectedDate!.month}/${_selectedDate!.day}'),
+          if (widget.showForm)
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    controller: _taskController,
+                    decoration: const InputDecoration(
+                      hintText: 'タスク入力',
+                      border: OutlineInputBorder(),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-
-                TextField(
-                  controller: _memoController,
-                  decoration: const InputDecoration(
-                    labelText: 'メモ',
-                    border: OutlineInputBorder(),
                   ),
-                  maxLines: 3,
-                ),
-                const SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: ElevatedButton(
-                    onPressed: _addTask,
-                    child: const Text('追加'),
+                  Wrap(
+                    spacing: 8.0,
+                    children: _categories.map((cat) {
+                      final isSelected = _selectedCategory == cat;
+                      return ChoiceChip(
+                        label: Text(cat),
+                        selected: isSelected,
+                        onSelected: (_) {
+                          setState(() => _selectedCategory = cat);
+                        },
+                        selectedColor: Colors.lightBlue[100],
+                      );
+                    }).toList(),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 12),
+
+                  Row(
+                    children: [
+                      const Text('日付:'),
+                      TextButton(
+                        onPressed: _selectDate,
+                        child: Text(_selectedDate == null
+                            ? '日付を選択'
+                            : '${_selectedDate!.year}/${_selectedDate!.month}/${_selectedDate!.day}'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+
+                  TextField(
+                    controller: _memoController,
+                    decoration: const InputDecoration(
+                      labelText: 'メモ',
+                      border: OutlineInputBorder(),
+                    ),
+                    maxLines: 3,
+                  ),
+                  const SizedBox(height: 12),
+
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: ElevatedButton(
+                      onPressed: _addTask,
+                      child: const Text('追加'),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+
+          // タスク表示エリア
           ..._tasks.map((task) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey),
-          ),
-          child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          Row(
-          children: [
-          const Icon(Icons.radio_button_unchecked),
-          const SizedBox(width: 8),
-          Text(task.title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-          '${task.date.year}/${task.date.month}/${task.date.day} ・ ${task.category}',
-          style: const TextStyle(color: Colors.grey),
-          ),
-          if (task.memo.isNotEmpty)
-          Padding(
-          padding: const EdgeInsets.only(top: 6),
-          child: Text(task.memo),
-          ),
-          ],
-          ),
-          ),
-          )).toList()
-      ],
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.grey),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.radio_button_unchecked),
+                      const SizedBox(width: 8),
+                      Text(task.title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    '${task.date.year}/${task.date.month}/${task.date.day} ・ ${task.category}',
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                  /*if (task.memo.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Text(task.memo),
+                    ),*/
+                ],
+              ),
+            ),
+          )).toList(),
+        ],
+      ),
     );
   }
 }
