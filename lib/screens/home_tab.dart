@@ -17,6 +17,22 @@ class _HomeTabState extends State<HomeTab> {
   String? _selectedCategory;
   DateTime? _selectedDate;
 
+  class Task {
+    final String title;
+    final String category;
+    final DateTime date;
+    final String memo;
+
+    Task({
+      required this.title,
+      required this.category,
+      required this.date,
+      required this.memo,
+    });
+  }
+
+  final List<Task> _tasks = [];
+
   void _selectDate() async {
     final picked = await showDatePicker(
       context: context,
@@ -39,10 +55,17 @@ class _HomeTabState extends State<HomeTab> {
     print('追加されたタスク: $task / カテゴリ: $_selectedCategory / 日付: $_selectedDate / メモ: $memo');
 
     setState(() {
-      _taskController.clear();
-      _memoController.clear();
-      _selectedCategory = null;
-      _selectedDate = null;
+    _tasks.add(Task(
+    title: task,
+    category: _selectedCategory!,
+    date: _selectedDate!,
+    memo: memo,
+    ));
+
+    _taskController.clear();
+    _memoController.clear();
+    _selectedCategory = null;
+    _selectedDate = null;
     });
   }
 
@@ -120,6 +143,39 @@ class _HomeTabState extends State<HomeTab> {
               ],
             ),
           ),
+          ..._tasks.map((task) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.grey),
+          ),
+          child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          Row(
+          children: [
+          const Icon(Icons.radio_button_unchecked),
+          const SizedBox(width: 8),
+          Text(task.title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+          '${task.date.year}/${task.date.month}/${task.date.day} ・ ${task.category}',
+          style: const TextStyle(color: Colors.grey),
+          ),
+          if (task.memo.isNotEmpty)
+          Padding(
+          padding: const EdgeInsets.only(top: 6),
+          child: Text(task.memo),
+          ),
+          ],
+          ),
+          ),
+          )).toList()
       ],
     );
   }
