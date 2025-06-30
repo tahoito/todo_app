@@ -25,51 +25,57 @@ class _CategoryTagInputState extends State<CategoryTagInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Wrap(
-          spacing: 8.0,
-          children: _tags
-              .map((tag) => Chip(
-            label: Text(tag),
-            backgroundColor: Colors.lightBlue[50],
-          ))
-              .toList(),
-        ),
-
-        //プラスボタンを押すと
-        Align(
-          alignment : Alignment.centerRight,
-          child : IconButton(
-            icon: const Icon(Icons.add),
-            onPressed:(){
-              setState(() {
-                _showInputForm = !_showInputForm;
-              });
-            },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0), // 左右に余白追加
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Wrap(
+            spacing: 8.0,
+            children: _tags
+                .map((tag) => Chip(
+              label: Text(tag),
+              backgroundColor: Colors.lightBlue[50],
+            ))
+                .toList(),
           ),
-        ),
 
-        //もし押されたら
-        if(_showInputForm)
-        Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: _controller,
-                decoration: const InputDecoration(
-                  hintText: 'カテゴリを入力',
-                ),
+          // プラスボタン（右寄せ・少し上に調整）
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  setState(() {
+                    _showInputForm = !_showInputForm;
+                  });
+                },
               ),
             ),
-            TextButton(
-              onPressed: _addTag,
-              child: const Text('追加'),
+          ),
+
+          // 押されたら表示される入力フォーム
+          if (_showInputForm)
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    decoration: const InputDecoration(
+                      hintText: 'カテゴリを入力',
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: _addTag,
+                  child: const Text('追加'),
+                ),
+              ],
             ),
-          ],
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -14,7 +14,10 @@ class _HomeTabState extends State<HomeTab> {
     return Scaffold(
       body: Column(
         children: [
-          const CategoryTagInput(), // タグ入力Widget
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: CategoryTagInput(),
+          ),
 
           const Divider(
             color: Colors.black,
